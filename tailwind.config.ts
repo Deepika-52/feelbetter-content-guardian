@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// FeelBetter custom colors
+				fb: {
+					primary: '#8B5CF6',
+					secondary: '#0EA5E9',
+					accent: '#F97316',
+					danger: '#e11d48',
+					success: '#10b981',
+					warning: '#f59e0b',
+					info: '#3b82f6',
+					light: '#f3f4f6',
+					dark: '#1f2937',
+					muted: '#9ca3af',
+					background: '#f9fafb',
+					card: '#ffffff',
 				}
 			},
 			borderRadius: {
@@ -84,11 +100,27 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				// Add custom animations for FeelBetter
+				'pulse-soft': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'slide-in': {
+					'0%': { transform: 'translateX(-100%)' },
+					'100%': { transform: 'translateX(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-soft': 'pulse-soft 3s infinite ease-in-out',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'slide-in': 'slide-in 0.5s ease-out'
 			}
 		}
 	},
