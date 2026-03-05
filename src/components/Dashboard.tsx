@@ -20,6 +20,8 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ isActive, blockedContentCount, protectionLevel }: DashboardProps) => {
+  const { toast } = useToast();
+  const [learnMoreOpen, setLearnMoreOpen] = useState(false);
   const platforms = [
     {
       name: 'YouTube',

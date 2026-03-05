@@ -19,6 +19,17 @@ interface PlatformCardProps {
 
 const PlatformCard = ({ platform }: PlatformCardProps) => {
   const [enabled, setEnabled] = React.useState(platform.enabled);
+  const { toast } = useToast();
+
+  const handleToggle = (checked: boolean) => {
+    setEnabled(checked);
+    toast({
+      title: checked ? `${platform.name} protection enabled` : `${platform.name} protection disabled`,
+      description: checked 
+        ? `Content filtering is now active on ${platform.name}` 
+        : `Content on ${platform.name} will no longer be filtered`,
+    });
+  };
 
   return (
     <Card className="card-hover-effect">
