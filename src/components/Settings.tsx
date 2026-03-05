@@ -21,12 +21,21 @@ const Settings = ({ onSensitivityChange, sensitivityLevel }: SettingsProps) => {
   const [emailAlerts, setEmailAlerts] = React.useState(true);
   const [phoneAlerts, setPhoneAlerts] = React.useState(false);
   const [contactTab, setContactTab] = React.useState('email');
+  const [alertThreshold, setAlertThreshold] = React.useState<'low' | 'medium' | 'high'>('medium');
   const { toast } = useToast();
 
   const handleSave = () => {
+    if (emailAlerts && !emailContact && contactTab === 'email') {
+      toast({ title: "Missing email", description: "Please enter a trusted contact email", variant: "destructive" });
+      return;
+    }
+    if (phoneAlerts && !phoneContact && contactTab === 'phone') {
+      toast({ title: "Missing phone", description: "Please enter a trusted contact phone number", variant: "destructive" });
+      return;
+    }
     toast({
-      title: "Settings saved",
-      description: "Your preferences have been updated",
+      title: "Settings saved ✓",
+      description: `Sensitivity: ${getSensitivityLabel(sensitivityLevel)} | Alerts: ${alertThreshold} threshold`,
     });
   };
 
@@ -167,9 +176,20 @@ const Settings = ({ onSensitivityChange, sensitivityLevel }: SettingsProps) => {
                 </p>
               </div>
               <div className="flex items-center space-x-1">
-                <Button variant="outline" size="sm" className="h-8 px-2">Low</Button>
-                <Button variant="outline" size="sm" className="h-8 px-2 bg-fb-primary text-white hover:bg-fb-primary/90">Medium</Button>
-                <Button variant="outline" size="sm" className="h-8 px-2">High</Button>
+                {(['low', 'medium', 'high'] as const).map((level) => (
+                  <Button 
+                    key={level}
+                    variant="outline" 
+                    size="sm" 
+                    className={`h-8 px-2 capitalize ${alertThreshold === level ? 'bg-fb-primary text-white hover:bg-fb-primary/90' : ''}`}
+                    onClick={() => {
+                      setAlertThreshold(level);
+                      toast({ title: `Alert threshold set to ${level}`, description: `Alerts will trigger at ${level} sensitivity` });
+                    }}
+                  >
+                    {level}
+                  </Button>
+                ))}
               </div>
             </div>
           </div>

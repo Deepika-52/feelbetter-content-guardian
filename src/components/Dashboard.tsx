@@ -1,11 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Shield, ShieldOff, Youtube, MessageSquare } from 'lucide-react';
 import PlatformCard from './PlatformCard';
 import { Button } from '@/components/ui/button';
-
+import { useToast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 interface DashboardProps {
   isActive: boolean;
   blockedContentCount: number;
@@ -13,6 +20,8 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ isActive, blockedContentCount, protectionLevel }: DashboardProps) => {
+  const { toast } = useToast();
+  const [learnMoreOpen, setLearnMoreOpen] = useState(false);
   const platforms = [
     {
       name: 'YouTube',
@@ -89,11 +98,32 @@ const Dashboard = ({ isActive, blockedContentCount, protectionLevel }: Dashboard
           <p className="text-sm">
             FeelBetter scans content in real-time, detecting potentially harmful or triggering material using AI and keyword analysis. Negative content is automatically blurred or hidden, while positive content remains visible.
           </p>
-          <Button className="mt-4 bg-white text-fb-primary hover:bg-white/90 border border-fb-primary/20">
+          <Button 
+            className="mt-4 bg-white text-fb-primary hover:bg-white/90 border border-fb-primary/20"
+            onClick={() => setLearnMoreOpen(true)}
+          >
             Learn More
           </Button>
         </CardContent>
       </Card>
+
+      <Dialog open={learnMoreOpen} onOpenChange={setLearnMoreOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>🧠 How FeelBetter Works</DialogTitle>
+            <DialogDescription>
+              Understanding the technology behind your mental wellness shield
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 text-sm">
+            <p><strong>1. Real-Time Scanning</strong> — FeelBetter continuously monitors content on YouTube and Instagram, analyzing titles, captions, and comments as they appear.</p>
+            <p><strong>2. AI Keyword Detection</strong> — Our algorithm detects harmful keywords and phrases related to depression, anxiety, violence, and other triggering topics.</p>
+            <p><strong>3. Sentiment Analysis</strong> — Beyond keywords, we analyze the overall tone and sentiment of content to catch subtle negativity.</p>
+            <p><strong>4. Content Filtering</strong> — Harmful content is blurred or hidden from your feed, keeping only positive and educational material visible.</p>
+            <p><strong>5. Trusted Contact Alerts</strong> — If harmful content exceeds your set threshold, FeelBetter automatically notifies your trusted contact via email or SMS.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

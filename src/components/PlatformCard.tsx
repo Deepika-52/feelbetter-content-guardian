@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { LucideIcon } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-
+import { useToast } from '@/hooks/use-toast';
 interface Platform {
   name: string;
   icon: LucideIcon;
@@ -19,6 +19,17 @@ interface PlatformCardProps {
 
 const PlatformCard = ({ platform }: PlatformCardProps) => {
   const [enabled, setEnabled] = React.useState(platform.enabled);
+  const { toast } = useToast();
+
+  const handleToggle = (checked: boolean) => {
+    setEnabled(checked);
+    toast({
+      title: checked ? `${platform.name} protection enabled` : `${platform.name} protection disabled`,
+      description: checked 
+        ? `Content filtering is now active on ${platform.name}` 
+        : `Content on ${platform.name} will no longer be filtered`,
+    });
+  };
 
   return (
     <Card className="card-hover-effect">
@@ -38,7 +49,7 @@ const PlatformCard = ({ platform }: PlatformCardProps) => {
           </div>
           <Switch 
             checked={enabled} 
-            onCheckedChange={setEnabled} 
+            onCheckedChange={handleToggle} 
             className="data-[state=checked]:bg-fb-primary" 
           />
         </div>
