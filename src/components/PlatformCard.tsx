@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { LucideIcon } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-
+import { useToast } from '@/hooks/use-toast';
 interface Platform {
   name: string;
   icon: LucideIcon;
@@ -38,7 +38,7 @@ const PlatformCard = ({ platform }: PlatformCardProps) => {
           </div>
           <Switch 
             checked={enabled} 
-            onCheckedChange={setEnabled} 
+            onCheckedChange={handleToggle} 
             className="data-[state=checked]:bg-fb-primary" 
           />
         </div>
